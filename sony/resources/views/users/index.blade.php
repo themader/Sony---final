@@ -1,39 +1,120 @@
 <x-layout>
-    <x-slot:title>Usuario</x-slot:title>
-        @if (session()->has('feedback.message'))
 
-                <div class="alert alert-success">
-                    {!! session()->get('feedback.message') !!}
+    <x-slot:title>Mi cuenta</x-slot:title>
+
+    @if (session()->has('feedback.message'))
+        <div class="alert alert-success perfil-alert">
+            {!! session()->get('feedback.message') !!}
+        </div>
+    @endif
+
+    <main class="cuenta-page">
+
+        <section class="cuenta-card">
+
+            {{-- CABECERA --}}
+            <div class="cuenta-header">
+
+                <div class="cuenta-avatar">
+                    <img
+                        src="{{ asset('img/usuario.png') }}"
+                        alt="Usuario"
+                    >
                 </div>
 
-            @endif
+                <div class="cuenta-heading">
+                    <span>MI CUENTA</span>
 
+                    <h1>
+                        Hola, {{ auth()->user()->name }}
+                    </h1>
 
-  <br>
-    <section id="user">
-        <article >
-            <img src="img/usuario.png" alt="">
+                    <p>
+                        Gestioná tu información personal y tus compras.
+                    </p>
+                </div>
 
-            <div class="button_cerrar_Sesion">
-                <form action="{{ route('auth.logout') }}" method="post">
-                                        @csrf
-                    <button type="submit">
-                        Cerrar sesion
-                    </button>
-                </form>
-                <a href="{{ route('users.edit', ['id' => auth()->user()->id]) }}" class="btn btn-secondary">Editar</a>
-                <a href="{{ route('ventas.index') }}" class="btn btn-info">Compras</a>
+                <div class="cuenta-status">
+                    <i></i>
+                    Cuenta activa
+                </div>
 
             </div>
-            
-        </article>
-        <article>
-            <h1>Bienvenido usuario: <strong> {{ auth()->user()->name }}  </strong></h1>
-            <h3><Strong>Mail:</Strong> {{ auth()->user()->email }} </h3>
-            <h3><strong>Rol:</strong> {{ auth()->user()->role }} </h3>
-            <h3><strong>Perfil creado:</strong> {{ auth()->user()->created_at }} </h3>
-        </article>
-    </section>
-   <br>
-    
+
+
+            {{-- INFORMACIÓN --}}
+            <div class="cuenta-info">
+
+                <div class="cuenta-info-box">
+
+                    <span>Correo electrónico</span>
+
+                    <strong>
+                        {{ auth()->user()->email }}
+                    </strong>
+
+                </div>
+
+
+                <div class="cuenta-info-box">
+
+                    <span>Rol</span>
+
+                    <strong>
+                        {{ auth()->user()->role }}
+                    </strong>
+
+                </div>
+
+
+                <div class="cuenta-info-box">
+
+                    <span>Perfil creado</span>
+
+                    <strong>
+                        {{ auth()->user()->created_at->format('d/m/Y') }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            {{-- ACCIONES --}}
+            <div class="cuenta-actions">
+
+                <a
+                    href="{{ route('users.edit', ['id' => auth()->user()->id]) }}"
+                    class="cuenta-button cuenta-button-primary"
+                >
+                    Editar perfil
+                </a>
+
+                <a
+                    href="{{ route('ventas.index') }}"
+                    class="cuenta-button cuenta-button-secondary"
+                >
+                    Mis compras
+                </a>
+
+                <form
+                    action="{{ route('auth.logout') }}"
+                    method="post"
+                >
+                    @csrf
+
+                    <button
+                        type="submit"
+                        class="cuenta-button cuenta-button-danger"
+                    >
+                        Cerrar sesión
+                    </button>
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </x-layout>
